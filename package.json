@@ -1,0 +1,16 @@
+{
+  "name": "rockstarapi",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "repository": "https://github.com/UTCSheffield/rockstarapi",
+  "author": "Sean Outram <outramsean0@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "": ""
+  },
+  "devDependencies": {
+    "@sapphire/ts-config": "^3.3.4",
+    "typescript": "^4.9.5"
+  }
+}

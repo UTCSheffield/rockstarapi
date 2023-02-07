@@ -1,0 +1,17 @@
+{
+	"extends": "@sapphire/ts-config",
+	"compilerOptions": {
+		"rootDir": "src",
+		"outDir": "dist",
+		"tsBuildInfoFile": "dist/.tsbuildinfo",
+		"module": "ES2020",
+		"moduleResolution": "Node",
+		"allowSyntheticDefaultImports": true,
+		"skipLibCheck": true,
+		"lib": [
+			"DOM",
+			"ES2020"
+		]
+	},
+	"include": ["src"]
+}
