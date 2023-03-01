@@ -5,6 +5,9 @@ const cache: ICache = {
     rocks: [],
     numOfRocks: 0
 }
+
+//cache.numOfRocks = 12
+
 export default cache;
 interface ICache {
     interpreter: Interpreter;
@@ -12,6 +15,6 @@ interface ICache {
     numOfRocks: number
 }
 interface rock {
-    ast: any;
-    output: any;
+    log: any;
+    output: string[];
 }
