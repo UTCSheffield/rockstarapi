@@ -24,7 +24,14 @@ app.get('/compile/:code', (req: Request, res: Response) => {
   const ast = cache.interpreter.parse(code);
   cache.interpreter.run(ast, readlineSync, saveRockOutput);
   cache.rocks[cache.numOfRocks].code = code;
-  res.send(cache.rocks[cache.numOfRocks]);
+  const responseData = {
+    id: cache.numOfRocks,
+    status: "success",
+    code: code,
+    log: cache.rocks[cache.numOfRocks].log,
+    output: cache.rocks[cache.numOfRocks].output
+  }
+  res.send(responseData);
   cache.numOfRocks++;
 })
 // /rock/:id API route
