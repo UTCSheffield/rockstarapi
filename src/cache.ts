@@ -17,4 +17,5 @@ interface ICache {
 interface rock {
     log: any;
     output: string[];
+    code: string;
 }

@@ -12,6 +12,6 @@ export function saveRockOutput(output: any) {
         console.log(output)
 }
 export function createRock() {
-        cache.rocks.push({log: null, output: []});
+        cache.rocks.push({log: null, output: [], code: ""});
         
 }
