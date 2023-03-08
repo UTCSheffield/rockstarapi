@@ -8,6 +8,7 @@ const port = Number(process.env.PORT) || 3000;
 import cache from "./cache.js";
 console.log("num of rocks in index", cache.numOfRocks)
 import { createRock, saveRockOutput } from "./lib/rockUtils.js";
+import path from "path";
 createRock();
 const tempCode = `Shout "Hello World"!\npapa was a rolling stone\npapa was a brand new bag\nx is 2\nShout x\nLet my array at 0 be "foo"\nLet my array at 1 be "bar"\nLet my array at 2 be "baz"\nLet my array at "key" be "value"\nShout my array at 0\nShout my array at 1\nShout my array at 2\nShout my array at "key"\nShout my array\nGive back 1\n`
 const ast = cache.interpreter.parse(tempCode);
@@ -16,12 +17,13 @@ console.log("env.log", cache.rocks[0].log);
 cache.rocks[cache.numOfRocks].code = tempCode;
 cache.numOfRocks++;
 app.get('/', (_req: Request, res: Response) => {
-  res.send('Hello World!')
+  res.sendFile(path.join(process.cwd(),"/ide/ide.html"))
 })
 // Compile new rock API route
 app.post('/compile/', (req: Request, res: Response) => {
   const codeEncoded = req.body.code;
   const code = `${decodeURIComponent(codeEncoded).replaceAll('\\n', '\n')}\n`;
+  console.log(code)
   createRock();
   const ast = cache.interpreter.parse(code);
   cache.interpreter.run(ast, readlineSync, (output: string) => saveRockOutput(output, cache.numOfRocks), cache.numOfRocks);
