@@ -64,7 +64,8 @@ app.get('/rock/:id', (req: Request, res: Response) => {
     id: rockID,
     status: "success",
     code: rock.code,
-    output: rock.log
+    log: rock.log,
+    output: rock.output
   }
   res.send(responseData);
 })
