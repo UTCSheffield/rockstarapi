@@ -8,11 +8,12 @@
         <p>
             id: <span id="idField">Not Generated!</span>
         </p>
-        <div hidden id="internalID"></div>
         <textarea id="inputField">Shout "Hello World"</textarea>
         <textarea id="outputField" readonly></textarea>
         <button onclick="submit()">Submit!</button>
         <script>
+            var idSet = false;
+            var id = 0;
             function submit() {
                 const code = document.getElementById("inputField").value
                 const encodedCode = encodeURIComponent(code)
@@ -21,16 +22,28 @@
                     code: encodedCode,
                 }
                 var res;
-                if (document.getElementById("internalID").textContent == "") {
-                    fetch(`/compile/`, {
-                        method: "POST",
+                if (idSet && id !=0) {
+                    body.id = id
+                    fetch('/compile', {
+                        method: "PUT",
                         body: new URLSearchParams(body),
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
                         },
                     }).then((fetchRes) => fetchRes.json())
-                    .then((response) =>  afterFetchFlow(response))
+                    .then((response) => afterFetchFlow(response))
                 } else {
+                    fetch(`/compile/`, {
+                        method: "POST",
+                        body: new URLSearchParams(body),
+                        headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                    },
+                    }).then((fetchRes) => fetchRes.json())
+                    .then((response) =>  afterFetchFlow(response))
+                    idSet = true
+                }
+                /*
                     body.id = Number(document.getElementById("internalID").textContent)
                     fetch(`/compile/`, {
                         method: "PUT",
@@ -41,9 +54,8 @@
                     }).then((fetchRes) => fetchRes.json())
                     .then((response) => afterFetchFlow(response))
                 }
-            }
+            } */
             function afterFetchFlow(res) {
-                document.getElementById("internalID").textContent = String(res.id)
                 document.getElementById("idField").textContent = String(res.id)
                 var output;
                 res.output.forEach((val) => {
@@ -53,7 +65,9 @@
                         output = `${output}\n${val}`
                     }
                 })
+                id = res.id
                 document.getElementById("outputField").textContent = String(output)
+            }
             }
         </script>
     </body>
