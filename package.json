@@ -27,5 +27,8 @@
     "express": "^4.18.2",
     "pegjs": "^0.10.0",
     "readline-sync": "^1.4.10"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
