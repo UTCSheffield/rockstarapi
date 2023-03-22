@@ -12,7 +12,10 @@
 	"forwardPorts": [3000],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "git submodule update --init --recursive && yarn install && yarn pegjs && yarn build"
+	"postCreateCommand": "git submodule update --init --recursive && yarn install && yarn pegjs && yarn build",
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+	}
 
 	// Configure tool-specific properties.
 	// "customizations": {},
