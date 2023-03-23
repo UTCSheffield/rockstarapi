@@ -8,6 +8,10 @@ jobs:
   prepare:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout repo
+        uses: actions/checkout@v3.40
+        with:
+          ref: main
       - name: get Submodule
         run: git submodule update --init --recursive
       - name: Export
@@ -19,6 +23,7 @@ jobs:
           path: output.tar.bz2
   update-main:
     runs-on: ubuntu-latest
+    needs: prepare
     steps:
       - name: Checkout gitless branch
         uses: actions/checkout@v3.4.0
