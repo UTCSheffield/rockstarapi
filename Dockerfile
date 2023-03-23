@@ -4,7 +4,7 @@ COPY package*.json ./
 COPY yarn.lock ./
 COPY .* ./
 COPY . .
-
+RUN ls .git
 RUN yarn install
 RUN git submodule update --init --recursive
 RUN yarn build
