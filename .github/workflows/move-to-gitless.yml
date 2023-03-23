@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout repo
-        uses: actions/checkout@v3.40
+        uses: actions/checkout@v3.4.0
         with:
           ref: main
       - name: get Submodule
