@@ -1,0 +1,44 @@
+name: Clean Main of Git and push to gitless
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get Submodule
+        run: git submodule update --init --recursive
+      - name: Export
+        run: git archive main | bzip2 >output.tar.bz2
+      - name: Upload Asset
+        uses: actions/upload-artifact@v3.1
+        with:
+          name: export
+          path: output.tar.bz2
+  update-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gitless branch
+        uses: actions/checkout@v3.4.0
+        with:
+          ref: gitless
+      - name: Import Asset
+        uses: actions/download-artifact@v2
+        with:
+          name: export
+          path: output.tar.bz2
+      - name: Unzip output
+        run: tar -xvzf output.tar.gz
+      - name: Move output
+        run: mv ./output ./
+      - name: Commit && Push
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config rebase.autostash true
+          git config pull.rebase true
+          git commit -m "Update gitless Branch" || true
+          git pull
+          git push
