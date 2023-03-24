@@ -35,7 +35,7 @@ jobs:
           name: export
           path: output.tar.bz2
       - name: Log File structure
-        run: ls
+        run: ls output.tar.bz2
       - name: Unzip output
         run: tar -xvzf output.tar.bz2
       - name: Move output
