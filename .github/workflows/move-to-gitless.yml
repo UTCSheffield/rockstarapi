@@ -37,7 +37,7 @@ jobs:
       - name: Log File structure
         run: ls
       - name: Unzip output
-        run: tar -xvzf output.tar.gz
+        run: tar -xvzf output.tar.bz2
       - name: Move output
         run: mv ./output ./
       - name: Commit && Push
