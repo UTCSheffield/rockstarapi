@@ -33,9 +33,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: export
-          path: output.tar.bz2
-      - name: Log File structure
-        run: ls output.tar.bz2
+          path: ./
       - name: Unzip output
         run: tar -xvzf output.tar.bz2
       - name: Move output
