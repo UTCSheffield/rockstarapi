@@ -15,7 +15,7 @@ jobs:
       - name: get Submodule
         run: git submodule update --init --recursive
       - name: Export
-        run: git archive --format=tar main | bzip2 >output.tar.bz2
+        run: git archive --format=gzip main | bzip2 >output.tar.bz2
       - name: Upload Asset
         uses: actions/upload-artifact@v3.1.2
         with:
