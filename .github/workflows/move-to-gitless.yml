@@ -38,8 +38,6 @@ jobs:
         run: tar -xvf output.tar.gz
       - name: List files
         run: ls
-      - name: Move output
-        run: mv ./output ./
       - name: Commit && Push
         run: |
           git config user.name github-actions[bot]
