@@ -15,12 +15,12 @@ jobs:
       - name: get Submodule
         run: git submodule update --init --recursive
       - name: Export
-        run: git archive --format=gzip main | bzip2 >output.tar.bz2
+        run: git archive --format=tar main | bzip2 >output.tar.gz
       - name: Upload Asset
         uses: actions/upload-artifact@v3.1.2
         with:
           name: export
-          path: ./output.tar.bz2
+          path: ./output.tar.gz
   update-main:
     runs-on: ubuntu-latest
     needs: prepare
@@ -35,7 +35,7 @@ jobs:
           name: export
           path: ./
       - name: Unzip output
-        run: tar -xvzf output.tar.bz2
+        run: tar -xvzf output.tar.gz
       - name: Move output
         run: mv ./output ./
       - name: Commit && Push
