@@ -15,11 +15,11 @@ jobs:
       - name: get Submodule
         run: git submodule update --init --recursive
       - name: Rename folder
-        run: cp rockstar rockstar-temp
+        run: cp -r rockstar rockstar-temp
       - name: Remove rockstar from git
         run: git rm rockstar
       - name: Move it back
-        run: mv -r rockstar-temp rockstar
+        run: mv rockstar-temp rockstar
       - name: Export
         run: git archive --format=tar main | bzip2 >output.tar.gz
       - name: Upload Asset
