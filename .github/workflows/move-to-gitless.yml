@@ -35,7 +35,7 @@ jobs:
           name: export
           path: ./
       - name: Unzip output
-        run: tar -xvzf output.tar.gz
+        run: tar -xf output.tar.gz
       - name: Move output
         run: mv ./output ./
       - name: Commit && Push
