@@ -6,6 +6,7 @@ COPY yarn.lock ./
 COPY .* ./
 COPY . .
 RUN rm .gitmodules
+RUN rm -rf rockstar
 RUN git init
 RUN git submodule add https://github.com/UTCSheffield/rockstar.git
 RUN git submodule update --init --recursive
