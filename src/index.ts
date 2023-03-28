@@ -6,14 +6,14 @@ const app = express();
 app.use(bodyParser.urlencoded());
 const port = Number(process.env.PORT) || 3000;
 import cache from "./cache.js";
-console.log("num of rocks in index", cache.numOfRocks)
+//console.log("num of rocks in index", cache.numOfRocks)
 import { createRock, saveRockOutput } from "./lib/rockUtils.js";
 import path from "path";
 createRock();
 const tempCode = `Shout "Hello World"!\npapa was a rolling stone\npapa was a brand new bag\nx is 2\nShout x\nLet my array at 0 be "foo"\nLet my array at 1 be "bar"\nLet my array at 2 be "baz"\nLet my array at "key" be "value"\nShout my array at 0\nShout my array at 1\nShout my array at 2\nShout my array at "key"\nShout my array\nGive back 1\n`
 const ast = cache.interpreter.parse(tempCode);
 cache.interpreter.run(ast, readlineSync, (output: string) => saveRockOutput(output, cache.numOfRocks), cache.numOfRocks);
-console.log("env.log", cache.rocks[0].log);
+//console.log("env.log", cache.rocks[0].log);
 cache.rocks[cache.numOfRocks].code = tempCode;
 cache.numOfRocks++;
 app.get('/', (_req: Request, res: Response) => {
@@ -23,7 +23,7 @@ app.get('/', (_req: Request, res: Response) => {
 app.post('/compile/', (req: Request, res: Response) => {
   const codeEncoded = req.body.code;
   const code = `${decodeURIComponent(codeEncoded).replaceAll('\\n', '\n')}\n`;
-  console.log(code)
+  //console.log(code)
   createRock();
   const ast = cache.interpreter.parse(code);
   cache.interpreter.run(ast, readlineSync, (output: string) => saveRockOutput(output, cache.numOfRocks), cache.numOfRocks);
@@ -60,6 +60,7 @@ app.put("/compile/", (req: Request, res: Response) => {
 app.get('/rock/:id', (req: Request, res: Response) => {
   const rockID = Number(req.params.id);
   const rock = cache.rocks[rockID];
+  console.log("rock", rock)
   const responseData = {
     id: rockID,
     status: "success",
