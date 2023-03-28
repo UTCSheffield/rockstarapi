@@ -2,6 +2,7 @@ import "dotenv/config";
 import express, { Response, Request} from "express";
 import readlineSync from 'readline-sync';
 import bodyParser from "body-parser";
+import fetch from "@sapphire/fetch";
 const app = express();
 app.use(bodyParser.urlencoded());
 const port = Number(process.env.PORT) || 3000;
