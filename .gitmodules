@@ -1,3 +1,3 @@
 [submodule "rockstar"]
-	path = rockstar
-	url = https://github.com/UTCSheffield/rockstar.git
+path = rockstar
+url = https://github.com/UTCSheffield/rockstar
