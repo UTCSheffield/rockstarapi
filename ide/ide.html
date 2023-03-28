@@ -44,34 +44,31 @@
                         method: "POST",
                         body: new URLSearchParams(body),
                         headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-                    },
+                            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                        },
                     }).then((fetchRes) => fetchRes.json())
                     .then((response) =>  afterFetchFlow(response))
                     idSet = true
                 }
-                /*
-                    body.id = Number(document.getElementById("internalID").textContent)
-                    fetch(`/compile/`, {
-                        method: "PUT",
-                        body: new URLSearchParams(body),
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-                        },
-                    }).then((fetchRes) => fetchRes.json())
-                    .then((response) => afterFetchFlow(response))
-                }
-            } */
+            }
+
             function afterFetchFlow(res) {
-                document.getElementById("idField").textContent = String(res.id)
-                var output;
+                
+                if(res.status == "success"){
+                    document.getElementById("idField").textContent = String(res.id)
+                    document.getElementById("inputField").textContent = String(res.code)
+                    document.getElementById("logField").textContent = String(JSON.stringify(res.log, null, 4))
+                    document.getElementById("outputField").textContent = String(res.output.join("\n"))
+                }   
+                
+                /*var output;
                 res.output.forEach((val) => {
                     if (typeof(output) == "undefined") {
                         output = val
                     } else {
                         output = `${output}\n${val}`
                     }
-                })
+                })*/
             }
         </script>
     </body>
