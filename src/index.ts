@@ -70,8 +70,13 @@ app.get('/rock/:id', (req: Request, res: Response) => {
   }
   res.send(responseData);
 })
-app.get('/heartbeat', (_req: Request, res: Response) => {
-  res.status(200).send("OK");
+app.get('/heartbeat', async (req: Request, res: Response) => {
+  const rockRes = await fetch(`https://${req.hostname}/rock/0`);
+  if (rockRes.status == 200) {
+    res.status(200).send("OK");
+  } else {
+    res.status(418).send("Error")
+  }
 })
 app.listen(port, () => {
   console.log(`app listening on port ${port}`)
