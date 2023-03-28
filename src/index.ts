@@ -70,7 +70,9 @@ app.get('/rock/:id', (req: Request, res: Response) => {
   }
   res.send(responseData);
 })
-app.get('/')
+app.get('/heartbeat', (_req: Request, res: Response) => {
+  res.status(200).send("OK");
+})
 app.listen(port, () => {
   console.log(`app listening on port ${port}`)
 })
