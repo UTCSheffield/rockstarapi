@@ -72,7 +72,7 @@ app.get('/rock/:id', (req: Request, res: Response) => {
   res.send(responseData);
 })
 app.get('/heartbeat', async (req: Request, res: Response) => {
-  const rockRes = await fetch(`https://${req.hostname}/rock/0`);
+  const rockRes: any = await fetch(`https://${req.hostname}/rock/0`);
   if (rockRes.status == 200) {
     res.status(200).send("OK");
   } else {
