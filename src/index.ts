@@ -2,7 +2,6 @@ import "dotenv/config";
 import express, { Response, Request} from "express";
 import readlineSync from 'readline-sync';
 import bodyParser from "body-parser";
-import { fetch } from "@sapphire/fetch";
 const app = express();
 app.use(bodyParser.urlencoded());
 const port = Number(process.env.PORT) || 3000;
@@ -71,13 +70,8 @@ app.get('/rock/:id', (req: Request, res: Response) => {
   }
   res.send(responseData);
 })
-app.get('/heartbeat', async (req: Request, res: Response) => {
-  const rockRes: any = await fetch(`https://${req.hostname}/rock/0`);
-  if (rockRes.status == 200) {
+app.get('/heartbeat', async (_req: Request, res: Response) => {
     res.status(200).send("OK");
-  } else {
-    res.status(418).send("Error")
-  }
 })
 app.listen(port, () => {
   console.log(`app listening on port ${port}`)
