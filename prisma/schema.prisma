@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id                Int      @id @unique @default(autoincrement())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  humanReadableDate String   @unique
+  Rock              Rock[]
+}
+
+model Rock {
+  id        Int      @id @unique @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  uniqueId  String   @unique
+  session   Session  @relation(fields: [sessionId], references: [id])
+  sessionId Int
+  humanReadableId Int
+  code      String
+}
