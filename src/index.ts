@@ -16,8 +16,15 @@ cache.interpreter.run(ast, readlineSync, (output: string) => saveRockOutput(outp
 //console.log("env.log", cache.rocks[0].log);
 cache.rocks[cache.numOfRocks].code = tempCode;
 cache.numOfRocks++;
+// IDE
 app.get('/', (_req: Request, res: Response) => {
-  res.sendFile(path.join(process.cwd(),"/ide/ide.html"))
+  res.sendFile(path.join(process.cwd(),"/ide/html.html"))
+})
+app.get('/ide/js.js', (_req: Request, res: Response) => {
+  res.sendFile(path.join(process.cwd(),"/ide/js.js"))
+})
+app.get('/ide/css.css', (_req: Request, res: Response) => {
+  res.sendFile(path.join(process.cwd(),"/ide/css.css"))
 })
 // Compile new rock API route
 app.post('/compile/', (req: Request, res: Response) => {
