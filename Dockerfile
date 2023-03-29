@@ -5,15 +5,15 @@ COPY package*.json ./
 COPY yarn.lock ./
 COPY .* ./
 COPY . .
-FROM initialsetup as submoduleSetup
+FROM initialsetup as submodulesetup
 RUN rm .gitmodules
 RUN rm -rf rockstar
 RUN git init
 RUN git submodule add https://github.com/UTCSheffield/rockstar.git
 RUN git submodule update --init --recursive
-FROM submodulesetup as Build
+FROM submodulesetup as build
 RUN yarn install
 RUN yarn build
-FROM Build as Run
+FROM build as run
 EXPOSE 3000
 CMD [ "yarn", "start" ]
