@@ -20,7 +20,6 @@ async function main() {
   cache.rocks[cache.numOfRocks].code = tempCode;
   cache.numOfRocks++;
   // IDE
-
   app.get('/', (_req: Request, res: Response) => {
     res.sendFile(path.join(process.cwd(),"/ide/html.html"))
   })
@@ -33,7 +32,7 @@ async function main() {
   // Compile new rock API route
   app.post('/compile/', async (req: Request, res: Response) => {
     const dateClass = new Date();
-    const date = `${dateClass.getDate()}_${dateClass.getMonth()}_${dateClass.getFullYear()}`
+    const date = `${dateClass.getDate()}_${dateClass.getMonth() + 1}_${dateClass.getFullYear()}`
     const codeEncoded = req.body.code;
     const code = `${decodeURIComponent(codeEncoded).replaceAll('\\n', '\n')}\n`;
     //console.log(code)
@@ -72,7 +71,7 @@ async function main() {
   // Update rock API Route
   app.put("/compile/", async (req: Request, res: Response) => {
     const dateClass = new Date();
-    const date = `${dateClass.getDate()}_${dateClass.getMonth()}_${dateClass.getFullYear()}`
+    const date = `${dateClass.getDate()}_${dateClass.getMonth() + 1}_${dateClass.getFullYear()}`
     const id = Number(req.body.id);
     const codeEncoded = req.body.code;
     const code = `${decodeURIComponent(codeEncoded).replaceAll('\\n', '\n')}\n`;
@@ -122,7 +121,36 @@ async function main() {
     res.send(responseData);
   })
   // Historical Rock API route
-
+  app.get('/historical/:date/:id', async (req: Request, res: Response) => {
+    const { date, id } = req.params;
+    const rock = await DBClient.rock.findFirst({
+      where: {
+        uniqueId: `${date}-${id}`
+      }
+    });
+    if (!rock) {
+      const responseData = {
+        id: id,
+        status: "error",
+        message: "Rock not found"
+      }
+      res.status(404).send(responseData)
+    } else {
+      createRock();
+      const ast = cache.interpreter.parse(rock.code);
+      cache.interpreter.run(ast, readlineSync, (output: string) => saveRockOutput(output, cache.numOfRocks), cache.numOfRocks);
+      cache.rocks[cache.numOfRocks].code = rock.code;
+      cache.numOfRocks++;
+      const responseData = {
+        id: cache.numOfRocks,
+        status: "success",
+        code: rock.code,
+        log: cache.rocks[Number(id)].log,
+        output: cache.rocks[Number(id)].output   
+      }
+      res.status(200).send(responseData)
+    }
+  })
   app.get('/heartbeat', async (_req: Request, res: Response) => {
     if (cache.dbConnected) {
       res.status(200).send("OK");
