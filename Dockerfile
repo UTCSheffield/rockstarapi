@@ -1,3 +1,4 @@
+ARG DATABASE_URL
 FROM node:18 as initialsetup
 WORKDIR /app
 RUN apt install git -y
