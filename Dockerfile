@@ -1,6 +1,7 @@
 ARG DATABASE_URL
 FROM node:18 as initialsetup
 WORKDIR /app
+ENV DATABASE_URL=$DATABASE_URL
 RUN apt install git -y
 COPY package*.json ./
 COPY yarn.lock ./
