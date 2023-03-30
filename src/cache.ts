@@ -3,7 +3,8 @@ import { Interpreter } from "#satriani/satriani";
 const cache: ICache = {
     interpreter: new Interpreter(),
     rocks: [],
-    numOfRocks: 0
+    numOfRocks: 0,
+    dbConnected: false
 }
 
 //cache.numOfRocks = 12
@@ -13,6 +14,7 @@ interface ICache {
     interpreter: Interpreter;
     rocks: rock[];
     numOfRocks: number
+    dbConnected: boolean
 }
 interface rock {
     log: any;

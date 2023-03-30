@@ -14,6 +14,7 @@ RUN git submodule update --init --recursive
 FROM submodulesetup as build
 RUN yarn install
 RUN yarn build
+RUN yarn prisma migrate deploy
 FROM build as run
 EXPOSE 3000
 CMD [ "yarn", "start" ]
