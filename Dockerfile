@@ -16,8 +16,7 @@ FROM submodulesetup as build
 RUN yarn install
 RUN yarn pegjs
 RUN yarn build
-RUN export DATABASE_URL=$DATABASE_URL
-RUN echo $DATABASE_URL
+RUN echo DATABASE_URL=$DATABASE_URL > .env
 RUN yarn prisma migrate deploy
 RUN yarn prisma generate
 FROM build as run
