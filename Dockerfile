@@ -1,7 +1,6 @@
-ARG EnvironmentVariable
+ARG DATABASE_URL
 FROM node:18 as initialsetup
 WORKDIR /app
-ENV DATABASE_URL=$DATABASE_URL
 RUN apt install git -y
 COPY package*.json ./
 COPY yarn.lock ./
@@ -17,7 +16,7 @@ FROM submodulesetup as build
 RUN yarn install
 RUN yarn pegjs
 RUN yarn build
-RUN echo DATABASE_URL="$DATABASE_URL" > .env
+RUN echo DATABASE_URL="${DATABASE_URL}" > .env
 RUN cat .env
 RUN yarn prisma migrate deploy
 RUN yarn prisma generate
