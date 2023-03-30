@@ -17,6 +17,7 @@ RUN yarn install
 RUN yarn pegjs
 RUN yarn build
 RUN export DATABASE_URL=$DATABASE_URL
+RUN echo $DATABASE_URL
 RUN yarn prisma migrate deploy
 RUN yarn prisma generate
 FROM build as run
