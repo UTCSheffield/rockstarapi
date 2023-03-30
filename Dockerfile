@@ -13,8 +13,10 @@ RUN git submodule add https://github.com/UTCSheffield/rockstar.git
 RUN git submodule update --init --recursive
 FROM submodulesetup as build
 RUN yarn install
+RUN yarn pegjs
 RUN yarn build
 RUN yarn prisma migrate deploy
+RUN yarn prisma generate
 FROM build as run
 EXPOSE 3000
 CMD [ "yarn", "start" ]
