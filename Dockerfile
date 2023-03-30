@@ -12,6 +12,7 @@ RUN rm -rf rockstar
 RUN git init
 RUN git submodule add https://github.com/UTCSheffield/rockstar.git
 RUN git submodule update --init --recursive
+ARG DATABASE_URL
 FROM submodulesetup as build
 RUN yarn install
 RUN yarn pegjs
