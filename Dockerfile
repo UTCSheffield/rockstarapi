@@ -1,4 +1,4 @@
-ARG DATABASE_URL
+ARG EnvironmentVariable
 FROM node:18 as initialsetup
 WORKDIR /app
 ENV DATABASE_URL=$DATABASE_URL
