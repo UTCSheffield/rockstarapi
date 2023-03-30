@@ -122,16 +122,27 @@ async function main() {
     res.send(responseData);
   })
   // Historical Rock API route
+
   app.get('/heartbeat', async (_req: Request, res: Response) => {
+    if (cache.dbConnected) {
       res.status(200).send("OK");
+    } else {
+      res.status(500).send("DB not connected");
+    }
   })
   app.listen(port, () => {
     console.log(`app listening on port ${port}`)
   })
-};
-
-(async () => {
-  await DBClient.$connect();
-  console.log("[DB] Connected!")
-  await main();
-})()
+}
+try {
+  (async () => {
+    await DBClient.$connect();
+    console.log("[DB] Connected!")
+    cache.dbConnected = true;
+    await main();
+  })()
+} catch (e) {
+  console.log("Fatal Error", e);
+  DBClient.$disconnect();
+  process.exit(1);
+}
