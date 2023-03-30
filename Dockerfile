@@ -16,7 +16,7 @@ FROM submodulesetup as build
 RUN yarn install
 RUN yarn pegjs
 RUN yarn build
-RUN echo DATABASE_URL="${DATABASE_URL}" > .env
+RUN echo DATABASE_URL="postgresql://postgres:7dKwGL2rBwCmbNPt4C53@containers-us-west-136.railway.app:6886/railway" > .env
 RUN cat .env
 RUN yarn prisma migrate deploy
 RUN yarn prisma generate
