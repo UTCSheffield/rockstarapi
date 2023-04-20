@@ -1,6 +1,6 @@
 //TODO: Write this file, move JS from html file to here & link it
 var idSet = false;
-var id = 0;
+var id = 1;
 function submit() {
     const code = document.getElementById("inputField").value
     const encodedCode = encodeURIComponent(code)
@@ -9,7 +9,8 @@ function submit() {
         code: encodedCode,
     }
     var res;
-    if (idSet && id !=0) {
+    console.log(document.getElementById("idField").textContent)
+    if (document.getElementById("idField").textContent != "None!") {
         body.id = id
         fetch('/compile', {
             method: "PUT",
@@ -28,17 +29,18 @@ function submit() {
             },
         }).then((fetchRes) => fetchRes.json())
         .then((response) =>  afterFetchFlow(response))
-        idSet = true
     }
 }
 
 function afterFetchFlow(res) {
     
     if(res.status == "success"){
+        console.log(res)
         document.getElementById("idField").textContent = String(res.id)
         document.getElementById("inputField").textContent = String(res.code)
         document.getElementById("logField").textContent = String(JSON.stringify(res.log, null, 4))
         document.getElementById("outputField").textContent = String(res.output.join("\n"))
+        id = res.id
     }   
     
     /*var output;

@@ -82,6 +82,7 @@ async function main() {
     cache.rocks[id].output = [];
     cache.interpreter.run(ast, readlineSync,  (output: string) => saveRockOutput(output, id), id);
     cache.rocks[id].code = code;
+    console.log("date, id", date, id)
     // Save to DB
     await DBClient.session.upsert({
       where: {
@@ -101,7 +102,7 @@ async function main() {
       }
     })
     const responseData = {
-      id: cache.numOfRocks,
+      id: id,
       status: "success",
       code: code,
       log: cache.rocks[id].log,
