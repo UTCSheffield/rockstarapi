@@ -6,20 +6,6 @@ info:
 # API routes
 ## I have not documented api endpoints for loading dependencies
 paths:
-  '/':
-    get:
-      summary: Serve the IDE
-      description: Serve's the IDE for the project
-      responses:
-        "200":
-          description: "OK"
-  '/docs':
-    get:
-      summary: Serves the API docs
-      description: Serves all document API routes
-      responses:
-        "200":
-          description: "OK"
   '/compile/':
     post:
       summary: Create a rock
