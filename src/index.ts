@@ -32,6 +32,13 @@ async function main() {
   app.get('/ide/css.css', (_req: Request, res: Response) => {
     res.sendFile(path.join(process.cwd(),"/ide/css.css"))
   })
+  // API Documentation
+  app.get('/docs/openapi.yaml', (_req: Request, res: Response) => {
+    res.sendFile(path.join(process.cwd(), "/openapi.yaml"))
+  })
+  app.get('/docs/', (_req: Request, res: Response) => {
+    res.sendFile(path.join(process.cwd(), "/docs/index.html"))
+  })
   // Compile new rock API route
   app.post('/compile/', async (req: Request, res: Response) => {
     const dateClass = new Date();
