@@ -24,7 +24,7 @@ paths:
               type: object
               properties:
                 code:
-                  string
+                  type: string
         required: true
     put:
       summary: Update a rock
@@ -43,9 +43,9 @@ paths:
               type: object
               properties:
                 code:
-                  string
+                  type: string
                 id:
-                  integer
+                  type: integer
 
         required: true
   '/rock/{id}':
