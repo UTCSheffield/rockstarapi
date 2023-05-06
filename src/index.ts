@@ -172,12 +172,12 @@ async function main() {
       }
     })
     const files = gist.data.files;
-    if (typeof(files) == "undefined") return res.send({
+    if (typeof(files) == "undefined") return res.status(404).send({
       status: "error",
       message: "Gist not found"
     })
     const filesArray = Object.values(files);
-    if (filesArray == null) return res.send({
+    if (filesArray == null) return res.status(404).send({
       status: "error",
       message: "Gist not found"
     })
@@ -198,7 +198,7 @@ async function main() {
       })
       cache.numOfRocks++
     })
-    res.send({
+    res.status(200).send({
       status: "success",
       rocks: rocksCreated
     })

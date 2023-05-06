@@ -93,6 +93,36 @@ paths:
         required: true
         schema:
           type: integer    
+  "/gist/id/{id}":
+    get:
+      summary: Load a rock from a gist
+      description: Load rocks from GitHub's gists
+      responses:
+        "200":
+          description: "OK"
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  rocks:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/standardWithoutStatus"
+        "404":
+          description: "Gist Not Found"
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/error"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
 components:
   schemas:
     standard:
@@ -102,6 +132,17 @@ components:
           type: integer
         status:
           type: string
+        code:
+          type: string
+        log:
+          type: object
+        output:
+          type: object
+    standardWithoutStatus:
+      type: object
+      properties:
+        id:
+          type: integer
         code:
           type: string
         log:
