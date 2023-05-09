@@ -41,6 +41,7 @@ async function main() {
   })
   // Compile new rock API route
   app.post('/compile/', async (req: Request, res: Response) => {
+    try {
     const dateClass = new Date();
     const date = `${dateClass.getDate()}_${dateClass.getMonth() + 1}_${dateClass.getFullYear()}`
     const codeEncoded = req.body.code;
@@ -77,9 +78,18 @@ async function main() {
     }
     res.send(responseData);
     cache.numOfRocks++;
+  } catch (e) {
+    const responseData = {
+      status: "error",
+      message: e
+    }
+    console.log("[ERROR_HANDLER] [COMPILE] Hit POST error handler")
+    res.status(500).send(responseData)    
+  }
   })
   // Update rock API Route
   app.put("/compile/", async (req: Request, res: Response) => {
+    try {
     const dateClass = new Date();
     const date = `${dateClass.getDate()}_${dateClass.getMonth() + 1}_${dateClass.getFullYear()}`
     const id = Number(req.body.id);
@@ -116,6 +126,14 @@ async function main() {
       output: cache.rocks[id].output
     }
     res.send(responseData);
+  } catch (e) {
+    const responseData = {
+      status: "error",
+      message: e
+    }
+    console.log("[ERROR_HANDLER] [COMPILE] Hit PUT error handler")
+    res.status(500).send(responseData)
+  }
   })
   // /rock/:id API route
   app.get('/rock/:id', (req: Request, res: Response) => {

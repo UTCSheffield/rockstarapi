@@ -17,6 +17,12 @@ paths:
             "application/json":
               schema:
                  $ref: "#/components/schemas/standard"
+        "500":
+          description: "Error during compilation"
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/errorWithoutID"
       requestBody:
         content:
           "application/json":
@@ -36,6 +42,12 @@ paths:
             "application/json":
               schema:
                 $ref: "#/components/schemas/standard"
+        "500":
+          description: "Error during compilation"
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/errorWithoutID"
       requestBody:
         content:
           "application/json":
@@ -154,6 +166,13 @@ components:
       properties:
         id:
           type: integer
+        status:
+          type: string
+        message:
+          type: string
+    errorWithoutID:
+      type: object
+      properties:
         status:
           type: string
         message:
