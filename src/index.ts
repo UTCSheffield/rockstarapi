@@ -8,6 +8,7 @@ import cache from "./cache.js";
 import { PrismaClient } from "@prisma/client";
 import { Octokit } from "@octokit/core";
 import type { gistFile } from "./types/github.js";
+import { afterStart } from "./lib/afterStart.js";
 const octokit = new Octokit()
 
 const DBClient = new PrismaClient();
@@ -22,6 +23,9 @@ async function main() {
   //console.log("env.log", cache.rocks[0].log);
   cache.rocks[cache.numOfRocks].code = tempCode;
   cache.numOfRocks++;
+  // Load certain rocks from cache
+  const afterStartClass = new afterStart(DBClient);
+  await afterStartClass.initialLoadFromCache();
   // IDE
   app.get('/', (_req: Request, res: Response) => {
     res.sendFile(path.join(process.cwd(),"/ide/html.html"))
