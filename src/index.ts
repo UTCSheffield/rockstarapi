@@ -9,6 +9,7 @@ import { PrismaClient } from "@prisma/client";
 import { Octokit } from "@octokit/core";
 import type { gistFile } from "./types/github.js";
 import { afterStart } from "./lib/afterStart.js";
+import logger from "./lib/logger.js";
 const octokit = new Octokit()
 
 const DBClient = new PrismaClient();
@@ -20,7 +21,6 @@ async function main() {
   const tempCode = `Shout "Hello World"!\npapa was a rolling stone\npapa was a brand new bag\nx is 2\nShout x\nLet my array at 0 be "foo"\nLet my array at 1 be "bar"\nLet my array at 2 be "baz"\nLet my array at "key" be "value"\nShout my array at 0\nShout my array at 1\nShout my array at 2\nShout my array at "key"\nShout my array\nGive back 1\n`
   const ast = cache.interpreter.parse(tempCode);
   cache.interpreter.run(ast, readlineSync, (output: string) => saveRockOutput(output, cache.numOfRocks), cache.numOfRocks);
-  //console.log("env.log", cache.rocks[0].log);
   cache.rocks[cache.numOfRocks].code = tempCode;
   cache.numOfRocks++;
   // Load certain rocks from cache
@@ -50,7 +50,6 @@ async function main() {
     const date = `${dateClass.getDate()}_${dateClass.getMonth() + 1}_${dateClass.getFullYear()}`
     const codeEncoded = req.body.code;
     const code = `${decodeURIComponent(codeEncoded).replaceAll('\\n', '\n')}\n`;
-    //console.log(code)
     createRock();
     const ast = cache.interpreter.parse(code);
     cache.interpreter.run(ast, readlineSync, (output: string) => saveRockOutput(output, cache.numOfRocks), cache.numOfRocks);
@@ -87,7 +86,7 @@ async function main() {
       status: "error",
       message: e
     }
-    console.log("[ERROR_HANDLER] [COMPILE] Hit POST error handler")
+    logger.warning("[ERROR_HANDLER]", "[COMPILE] Hit POST error handler")
     res.status(500).send(responseData)    
   }
   })
@@ -103,7 +102,7 @@ async function main() {
     cache.rocks[id].output = [];
     cache.interpreter.run(ast, readlineSync,  (output: string) => saveRockOutput(output, id), id);
     cache.rocks[id].code = code;
-    console.log("date, id", date, id)
+    logger.debug("date, id", `${date}, ${id}`)
     // Save to DB
     await DBClient.session.upsert({
       where: {
@@ -135,7 +134,7 @@ async function main() {
       status: "error",
       message: e
     }
-    console.log("[ERROR_HANDLER] [COMPILE] Hit PUT error handler")
+    logger.warning("ERROR_HANDLER", "[COMPILE] Hit PUT error handler")
     res.status(500).send(responseData)
   }
   })
@@ -143,7 +142,7 @@ async function main() {
   app.get('/rock/:id', (req: Request, res: Response) => {
     const rockID = Number(req.params.id);
     const rock = cache.rocks[rockID];
-    console.log("rock", rock)
+    logger.debug("rock", JSON.stringify(rock))
     const responseData = {
       id: rockID,
       status: "success",
@@ -234,18 +233,18 @@ async function main() {
     }
   })
   app.listen(port, () => {
-    console.log(`app listening on port ${port}`)
+    logger.info("WEBSERVER", `listening on ${port}`)
   })
 }
 try {
   (async () => {
     await DBClient.$connect();
-    console.log("[DB] Connected!")
+    logger.info("DB", "Connected!")
     cache.dbConnected = true;
     await main();
   })()
 } catch (e) {
-  console.log("Fatal Error", e);
+  logger.error(`FATAL`, String(e));
   DBClient.$disconnect();
   process.exit(1);
 }

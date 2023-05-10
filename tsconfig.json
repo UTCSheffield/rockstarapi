@@ -11,7 +11,8 @@
 		"allowJs": true,
 		"baseUrl": ".",
 		"paths": {
-			"#satriani/*": ["rockstar/satriani/*"]
+			"#satriani/*": ["rockstar/satriani/*"],
+			"#main/*": ["src/*"]
 		}
 	},
 	"include": ["src", "rockstar"],

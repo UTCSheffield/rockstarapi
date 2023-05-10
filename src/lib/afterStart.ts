@@ -2,6 +2,7 @@ import type { PrismaClient } from "@prisma/client";
 import { createRock, saveRockOutput } from "./rockUtils";
 import cache from "../cache";
 import readlineSync from 'readline-sync';
+import logger from "./logger";
 
 export class afterStart {
     private db: PrismaClient | undefined;
@@ -10,7 +11,7 @@ export class afterStart {
     }
     // Load from cache anything submitted on the same day
     public async initialLoadFromCache() {
-        console.log("Started loading Rocks from today into cache ")
+        logger.info("INITIAL LOADER", "Started loading Rocks from today into cache ")
         const dateClass = new Date();
         const date = `${dateClass.getDate()}_${dateClass.getMonth() + 1}_${dateClass.getFullYear()}`
         const session = await this.db?.session.findFirst({
@@ -28,8 +29,8 @@ export class afterStart {
             cache.rocks[i].output = [];
             cache.interpreter.run(ast, readlineSync,  (output: string) => saveRockOutput(output, i), i);
             cache.rocks[i].code = val.code;
-            console.log("Loaded a rock into cache with id: ", i)
+            logger.info("INITIAL LOADER", `Loaded a rock into cache with id: ${i}`)
         })
-        console.log("Finished loading rocks from db")
+        logger.info("INITIAL LOADER", "Finished loading rocks from db")
     }   
 }
