@@ -21,7 +21,6 @@ class loggerClass {
         this.info("LOG LEVEL", String(this.logLevel))
     }
     public info(title: string, content: string) {
-        if (this.logLevel == 1) return
         console.log(blue(`[INFO] [${title}]`), content)
     }
     public warning(title: string, content: string) {
