@@ -1,179 +1,179 @@
 # Required metadata
 openapi: 3.0.0
 info:
-  title: Rockstar API
-  version: 0.0.1
+    title: Rockstar API
+    version: 0.0.1
 # API routes
 ## I have not documented api endpoints for loading dependencies
 paths:
-  '/compile/':
-    post:
-      summary: Create a rock
-      description: Creates a rock in the DB and compiles and loads it
-      responses:
-        "200":
-          description: "OK"
-          content:
-            "application/json":
-              schema:
-                 $ref: "#/components/schemas/standard"
-        "500":
-          description: "Error during compilation"
-          content:
-            "application/json":
-              schema:
-                $ref: "#/components/schemas/errorWithoutID"
-      requestBody:
-        content:
-          "application/json":
-            schema:
-              type: object
-              properties:
-                code:
-                  type: string
-        required: true
-    put:
-      summary: Update a rock
-      description: Updates a rock with the supplied ID and updates the DB and recompiles and loads it
-      responses:
-        "200":
-          description: "OK"
-          content:
-            "application/json":
-              schema:
-                $ref: "#/components/schemas/standard"
-        "500":
-          description: "Error during compilation"
-          content:
-            "application/json":
-              schema:
-                $ref: "#/components/schemas/errorWithoutID"
-      requestBody:
-        content:
-          "application/json":
-            schema:
-              type: object
-              properties:
-                code:
-                  type: string
-                id:
-                  type: integer
+    '/compile/':
+        post:
+            summary: Create a rock
+            description: Creates a rock in the DB and compiles and loads it
+            responses:
+                '200':
+                    description: 'OK'
+                    content:
+                        'application/json':
+                            schema:
+                                $ref: '#/components/schemas/standard'
+                '500':
+                    description: 'Error during compilation'
+                    content:
+                        'application/json':
+                            schema:
+                                $ref: '#/components/schemas/errorWithoutID'
+            requestBody:
+                content:
+                    'application/json':
+                        schema:
+                            type: object
+                            properties:
+                                code:
+                                    type: string
+                required: true
+        put:
+            summary: Update a rock
+            description: Updates a rock with the supplied ID and updates the DB and recompiles and loads it
+            responses:
+                '200':
+                    description: 'OK'
+                    content:
+                        'application/json':
+                            schema:
+                                $ref: '#/components/schemas/standard'
+                '500':
+                    description: 'Error during compilation'
+                    content:
+                        'application/json':
+                            schema:
+                                $ref: '#/components/schemas/errorWithoutID'
+            requestBody:
+                content:
+                    'application/json':
+                        schema:
+                            type: object
+                            properties:
+                                code:
+                                    type: string
+                                id:
+                                    type: integer
 
-        required: true
-  '/rock/{id}':
-    get:
-      summary: Get rock data
-      description: Get data for the rock with the supplied ID
-      responses:
-        "200":
-          description: "OK"
-          content:
-            "application/json":
+                required: true
+    '/rock/{id}':
+        get:
+            summary: Get rock data
+            description: Get data for the rock with the supplied ID
+            responses:
+                '200':
+                    description: 'OK'
+                    content:
+                        'application/json':
+                            schema:
+                                $ref: '#/components/schemas/standard'
+        parameters:
+            - name: id
+              in: path
+              required: true
               schema:
-                $ref: "#/components/schemas/standard"
-    parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-  '/historical/{date}/{id}':
-    get:
-      summary: Get historical rock
-      description: Gets a rock from an older session, with date and ID parameters
-      responses:
-        "404":
-          description: "Not Found"
-          content:
-            "application/json":
+                  type: integer
+    '/historical/{date}/{id}':
+        get:
+            summary: Get historical rock
+            description: Gets a rock from an older session, with date and ID parameters
+            responses:
+                '404':
+                    description: 'Not Found'
+                    content:
+                        'application/json':
+                            schema:
+                                $ref: '#/components/schemas/error'
+                '200':
+                    description: 'OK'
+                    content:
+                        'application/json':
+                            schema:
+                                $ref: '#/components/schemas/standard'
+        parameters:
+            - name: date
+              in: path
+              required: true
               schema:
-                $ref: "#/components/schemas/error"
-        "200":
-          description: "OK"
-          content:
-            "application/json":
+                  type: string
+            - name: id
+              in: path
+              required: true
               schema:
-                $ref: "#/components/schemas/standard"
-    parameters:
-      - name: date
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer    
-  "/gist/id/{id}":
-    get:
-      summary: Load a rock from a gist
-      description: Load rocks from GitHub's gists
-      responses:
-        "200":
-          description: "OK"
-          content:
-            "application/json":
+                  type: integer
+    '/gist/id/{id}':
+        get:
+            summary: Load a rock from a gist
+            description: Load rocks from GitHub's gists
+            responses:
+                '200':
+                    description: 'OK'
+                    content:
+                        'application/json':
+                            schema:
+                                type: object
+                                properties:
+                                    status:
+                                        type: string
+                                    rocks:
+                                        type: array
+                                        items:
+                                            $ref: '#/components/schemas/standardWithoutStatus'
+                '404':
+                    description: 'Gist Not Found'
+                    content:
+                        'application/json':
+                            schema:
+                                $ref: '#/components/schemas/error'
+        parameters:
+            - name: id
+              in: path
+              required: true
               schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  rocks:
-                    type: array
-                    items:
-                        $ref: "#/components/schemas/standardWithoutStatus"
-        "404":
-          description: "Gist Not Found"
-          content:
-            "application/json":
-              schema:
-                $ref: "#/components/schemas/error"
-    parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
+                  type: string
 components:
-  schemas:
-    standard:
-      type: object
-      properties:
-        id:
-          type: integer
-        status:
-          type: string
-        code:
-          type: string
-        log:
-          type: object
-        output:
-          type: object
-    standardWithoutStatus:
-      type: object
-      properties:
-        id:
-          type: integer
-        code:
-          type: string
-        log:
-          type: object
-        output:
-          type: object
-    error:
-      type: object
-      properties:
-        id:
-          type: integer
-        status:
-          type: string
-        message:
-          type: string
-    errorWithoutID:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
+    schemas:
+        standard:
+            type: object
+            properties:
+                id:
+                    type: integer
+                status:
+                    type: string
+                code:
+                    type: string
+                log:
+                    type: object
+                output:
+                    type: object
+        standardWithoutStatus:
+            type: object
+            properties:
+                id:
+                    type: integer
+                code:
+                    type: string
+                log:
+                    type: object
+                output:
+                    type: object
+        error:
+            type: object
+            properties:
+                id:
+                    type: integer
+                status:
+                    type: string
+                message:
+                    type: string
+        errorWithoutID:
+            type: object
+            properties:
+                status:
+                    type: string
+                message:
+                    type: string

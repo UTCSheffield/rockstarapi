@@ -1,40 +1,49 @@
 {
-  "name": "rockstarapi",
-  "version": "1.0.0",
-  "main": "dist/src/index.js",
-  "repository": "https://github.com/UTCSheffield/rockstarapi",
-  "author": "Sean Outram <outramsean0@gmail.com>",
-  "license": "MIT",
-  "type": "commonjs",
-  "imports": {
-    "#satriani/*": "./dist/rockstar/satriani/*.js",
-    "#main/*": "./dist/src/*.js"
-  },
-  "scripts": {
-    "build": "tsc",
-    "pegjs": "node node_modules/pegjs/bin/pegjs --cache -o ./rockstar/satriani/satriani.parser.js ./rockstar.peg",
-    "start": "node ."
-  },
-  "devDependencies": {
-    "@sapphire/ts-config": "^3.3.4",
-    "@types/readline-sync": "^1.4.4",
-    "prisma": "4.12.0",
-    "typescript": "^4.9.5"
-  },
-  "dependencies": {
-    "@octokit/core": "^4.2.0",
-    "@prisma/client": "4.12.0",
-    "@types/express": "^4.17.17",
-    "@types/node": "^18.13.0",
-    "body-parser": "^1.20.2",
-    "chai": "^4.3.7",
-    "colorette": "^2.0.20",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "pegjs": "^0.10.0",
-    "readline-sync": "^1.4.10"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  }
+	"name": "rockstarapi",
+	"version": "1.0.0",
+	"main": "dist/src/index.js",
+	"repository": "https://github.com/UTCSheffield/rockstarapi",
+	"author": "Sean Outram <outramsean0@gmail.com>",
+	"license": "MIT",
+	"type": "commonjs",
+	"imports": {
+		"#satriani/*": "./dist/rockstar/satriani/*.js",
+		"#main/*": "./dist/src/*.js"
+	},
+	"scripts": {
+		"build": "tsc",
+		"pegjs": "node node_modules/pegjs/bin/pegjs --cache -o ./rockstar/satriani/satriani.parser.js ./rockstar.peg",
+		"start": "node .",
+		"prepare": "husky install"
+	},
+	"devDependencies": {
+		"@sapphire/prettier-config": "^1.4.5",
+		"@sapphire/ts-config": "^3.3.4",
+		"@types/readline-sync": "^1.4.4",
+		"husky": "^8.0.3",
+		"lint-staged": "^13.2.2",
+		"prettier": "2.8.8",
+		"prisma": "4.12.0",
+		"typescript": "^4.9.5"
+	},
+	"dependencies": {
+		"@octokit/core": "^4.2.0",
+		"@prisma/client": "4.12.0",
+		"@types/express": "^4.17.17",
+		"@types/node": "^18.13.0",
+		"body-parser": "^1.20.2",
+		"chai": "^4.3.7",
+		"colorette": "^2.0.20",
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"pegjs": "^0.10.0",
+		"readline-sync": "^1.4.10"
+	},
+	"engines": {
+		"node": ">=18.0.0"
+	},
+	"lint-staged": {
+		"**/*": "prettier --write --ignore-unknown"
+	},
+	"prettier": "@sapphire/prettier-config"
 }
