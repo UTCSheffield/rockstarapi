@@ -1,16 +1,43 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Rockstar API</title>
-		<link rel="stylesheet" href="/ide/css.css" />
-	</head>
-	<body>
-		<h1>Rockstar API</h1>
-		<p>id: <span id="idField">None!</span></p>
-		<textarea id="inputField">Shout "Hello World"</textarea>
-		<textarea id="outputField" readonly></textarea>
-		<textarea id="logField" readonly></textarea>
-		<button onclick="submit()">Submit!</button>
-		<script src="/ide/js.js"></script>
-	</body>
+<html lang="en">
+    <head>
+        <title>Rockstar API</title>
+        <link rel="stylesheet" href="/ide/css.css" />
+    </head>
+    <body>
+        <div class="parent">
+            <div class="div1">
+                <h1>UTC Sheffield Rockstar API</h1>
+            </div>
+            <div class="div2">
+                <h3>ID: <span id="rockID">None!</span></h3>
+            </div>
+            <div id="gistDiv" class="div3">
+                <h2>Gists</h2>
+                <label for="gistID">ID: </label>
+                <br />
+                <textarea id="gistID"></textarea>
+                <br />
+                <button onclick="gistSubmit()">Load!</button>
+            </div>
+            <div class="div4">
+                <h2>Historical Date</h2>
+                <label for="historicalDATE">Date:</label>
+                <input type="date" id="historicalDATE" />
+                <br />
+                <label for="historicalID">ID:</label>
+                <br />
+                <textarea id="historicalID"></textarea>
+                <button onclick="historicalSubmit()">Load!</button>
+            </div>
+            <div class="div5">
+                <h2>IDE</h2>
+                <textarea class="bigTextArea" id="ideInput"></textarea>
+                <textarea class="bigTextArea" id="ideOutput" readonly></textarea>
+                <textarea class="bigTextArea" id="ideLog" readonly></textarea>
+                <button onclick="ideSubmit()">Run!</button>
+            </div> 
+        </div>
+        <script src="/ide/js.js"></script>
+    </body>
 </html>

@@ -26,10 +26,10 @@ export class afterStart {
 		rock?.map((val, i) => {
 			createRock();
 			const ast = cache.interpreter.parse(val.code);
-			cache.rocks[i].output = [];
+			cache.rocks[i+1].output = [];
 			cache.interpreter.run(ast, readlineSync, (output: string) => saveRockOutput(output, i), i);
-			cache.rocks[i].code = val.code;
-			logger.info('INITIAL LOADER', `Loaded a rock into cache with id: ${i}`);
+			cache.rocks[i+1].code = val.code;
+			logger.info('INITIAL LOADER', `Loaded a rock into cache with id: ${i+1}`);
 		});
 		logger.info('INITIAL LOADER', 'Finished loading rocks from db');
 	}

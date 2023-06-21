@@ -1,16 +1,25 @@
-//TODO: Write this file, move JS from html file to here & link it
+// Consts
 var idSet = false;
 var id = 1;
-function submit() {
-	const code = document.getElementById('inputField').value;
+// Functions
+function gistSubmit() {
+	const id = document.getElementById('gistID').value;
+	fetch(`/gist/id/${id}`)
+	.then((fetchRes) => fetchRes.json())
+	.then((response) => multiRockAfterSubmit(response, 'gistMultiSelectDropdown', 'gistDiv'));
+}
+function historicalSubmit() {
+	
+}
+function ideSubmit() {
+    const code = document.getElementById('ideInput').value;
 	const encodedCode = encodeURIComponent(code);
 	console.log(encodedCode);
 	const body = {
 		code: encodedCode
 	};
-	var res;
-	console.log(document.getElementById('idField').textContent);
-	if (document.getElementById('idField').textContent != 'None!') {
+	console.log(document.getElementById('rockID').textContent);
+	if (document.getElementById('rockID').textContent != 'None!') {
 		body.id = id;
 		fetch('/compile', {
 			method: 'PUT',
@@ -20,7 +29,7 @@ function submit() {
 			}
 		})
 			.then((fetchRes) => fetchRes.json())
-			.then((response) => afterFetchFlow(response));
+			.then((response) => genericAfterSubmit(response));
 	} else {
 		fetch(`/compile/`, {
 			method: 'POST',
@@ -30,26 +39,35 @@ function submit() {
 			}
 		})
 			.then((fetchRes) => fetchRes.json())
-			.then((response) => afterFetchFlow(response));
+			.then((response) => genericAfterSubmit(response));
 	}
 }
-
-function afterFetchFlow(res) {
-	if (res.status == 'success') {
+function genericAfterSubmit(res) {
+    if (res.status == 'success') {
 		console.log(res);
-		document.getElementById('idField').textContent = String(res.id);
-		document.getElementById('inputField').textContent = String(res.code);
-		document.getElementById('logField').textContent = String(JSON.stringify(res.log, null, 4));
-		document.getElementById('outputField').textContent = String(res.output.join('\n'));
+		document.getElementById('rockID').textContent = String(res.id);
+		document.getElementById('ideInput').textContent = String(decodeURIComponent(res.code));
+		document.getElementById('ideLog').textContent = String(JSON.stringify(res.log, null, 4));
+		document.getElementById('ideOutput').textContent = String(res.output.join('\n'));
 		id = res.id;
+	} else {
+        document.getElementById('outputField').textContent = String(res.message);
+    }
+}
+function multiRockAfterSubmit(res, dropdownID, parentDiv) {
+	const dropdown = document.createElement('select');
+	dropdown.id = dropdownID;
+	dropdown.onclick = () => {
+		const id = document.getElementById(dropdownID).value;
+		fetch(`/rock/${id}`)
+		.then((fetchRes) => fetchRes.json())
+		.then((response) => genericAfterSubmit(response));
 	}
-
-	/*var output;
-    res.output.forEach((val) => {
-        if (typeof(output) == "undefined") {
-            output = val
-        } else {
-            output = `${output}\n${val}`
-        }
-    })*/
+	res.rocks.map((val) => {
+		const option = document.createElement('option');
+		option.value = val.id;
+		option.textContent = `ID: ${val.id}`;
+		dropdown.appendChild(option);
+	})
+	document.getElementById(parentDiv).appendChild(dropdown);
 }

@@ -51,7 +51,7 @@ const data: routeData = {
 				status: 'error',
 				message: e
 			};
-			logger.warning('ERROR_HANDLER', '[COMPILE] Hit PUT error handler with error ${e}');
+			logger.warning('ERROR_HANDLER', `[COMPILE] Hit PUT error handler with error ${e}`);
 			res.status(500).send(responseData);
 		}
 	}
